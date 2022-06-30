@@ -25,7 +25,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: buzzer
+  name: buzzer-service
   labels:
     app: buzzer
 spec:
