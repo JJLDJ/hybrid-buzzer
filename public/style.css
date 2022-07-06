@@ -20,7 +20,8 @@ body {
 
 body,
 input,
-button {
+button,
+select {
   font-size: 1em;
 }
 
@@ -68,7 +69,8 @@ header {
 
 input[type="text"],
 input[type="number"],
-button {
+button,
+select {
   display: block;
   padding: 0.8em 1.4em;
   margin: 1em 0;
@@ -77,17 +79,29 @@ button {
   font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-weight: 500;
+  background-color: #fff;
+}
+
+select > option {
+  color: #000;
+}
+select option[value=""],
+select[required]:invalid {
+  color: #777;
 }
 
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+select {
   border: 1px solid #B8B8B8;
 }
 
 input[type="text"]:focus,
 input[type="number"]:focus,
+select:focus,
 input[type="text"]:active,
-input[type="number"]:active {
+input[type="number"]:active,
+select:active {
   border-color: #2c4bff;
   box-shadow: 0 0 0 3px #ABB7FF;
   outline: none;
