@@ -9,15 +9,15 @@ const io = socketio(server);
 const title = 'Buffer Buzzer'
 
 let data = {
-  users: new Set(),
-  buzzes: new Set(),
+  users: [],
+  buzzes: [],
 }
 
 const getData = () => ({
-  users: [...data.users],
-  buzzes: [...data.buzzes].map(b => {
-    const [ name, team ] = b.split('-')
-    return { name, team }
+  users: data.users,
+  buzzes: data.buzzes.map(b => {
+    const [ name, team, buzzTime, buzzTimeDisplay ] = b.split('-')
+    return { name, team, buzzTime, buzzTimeDisplay }
   })
 })
 
@@ -29,20 +29,35 @@ app.get('/host', (req, res) => res.render('host', Object.assign({ title }, getDa
 
 io.on('connection', (socket) => {
   socket.on('join', (user) => {
-    data.users.add(user.id)
-    io.emit('active', [...data.users].length)
+    data.users.push(user.id)
+    io.emit('active', data.users.length)
     console.log(`${user.name} joined!`)
   })
 
   socket.on('buzz', (user) => {
-    data.buzzes.add(`${user.name}-${user.team}`)
-    io.emit('buzzes', [...data.buzzes])
+    // Dedupe filter by name & team.
+    if (getData()
+            .buzzes
+            .filter(buzz => buzz.name == user.name && buzz.team == user.team)
+            .length > 0) {
+      console.log(`${user.name} buzzed in! (but was de-dupe filtered)`)
+      return;
+    }
+
+    let buzzTime = new Date().valueOf()
+    let firstBuzzTime = data.buzzes.length ? getData().buzzes[0].buzzTime : buzzTime
+
+    let buzzTimeDisplay =
+      `(+${Math.round((parseInt(buzzTime) - parseInt(firstBuzzTime)) / 10) / 100} s)`
+
+    data.buzzes.push(`${user.name}-${user.team}-${buzzTime}-${buzzTimeDisplay}`)
+    io.emit('buzzes', data.buzzes)
     console.log(`${user.name} buzzed in!`)
   })
 
   socket.on('clear', () => {
-    data.buzzes = new Set()
-    io.emit('buzzes', [...data.buzzes])
+    data.buzzes = []
+    io.emit('buzzes', data.buzzes)
     console.log(`Clear buzzes`)
   })
 })

@@ -155,3 +155,8 @@ button:focus {
 .secondary:hover {
   background-color: rgb(44, 75, 255);
 }
+
+.buzz-time {
+  font-size: 0.8rem;
+  color: #666;
+}

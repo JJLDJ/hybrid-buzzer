@@ -11,9 +11,10 @@ socket.on('buzzes', (buzzes) => {
   buzzList.innerHTML = buzzes
     .map(buzz => {
       const p = buzz.split('-')
-      return { name: p[0], team: p[1] }
+      return { name: p[0], team: p[1], buzzTime: p[2], buzzTimeDisplay: p[3] }
     })
-    .map(user => `<li>${user.name} on Team ${user.team}</li>`)
+    .map(user =>
+      `<li>${user.name} on Team ${user.team} <span class='buzz-time'>${user.buzzTimeDisplay}</span></li>`)
     .join('')
 })
 
