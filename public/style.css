@@ -17,6 +17,12 @@ body {
   color: #1A2634;
   text-align: center;
 }
+body.winner-red {
+  background-color: #FFCDD2;
+}
+body.winner-blue {
+  background-color: #BBDEFB;
+}
 
 body,
 input,
@@ -43,6 +49,13 @@ li {
 
 header {
   background-color: #fff;
+  border-bottom: 8px solid #fff;
+}
+body.winner-red > header {
+  border-bottom-color: #D32F2F;
+}
+body.winner-blue > header {
+  border-bottom-color: #1976D2;
 }
 
 .logo {
