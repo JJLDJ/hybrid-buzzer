@@ -44,4 +44,12 @@ editInfo.addEventListener('click', () => {
   body.classList.remove('buzzer-mode')
 })
 
+socket.on('buzzes', (buzzes) => {
+  if (buzzes.length > 0) {
+    buzzer.classList.add('buzzer-locked')
+  } else {
+    buzzer.classList.remove('buzzer-locked')
+  }
+})
+
 getUserInfo()

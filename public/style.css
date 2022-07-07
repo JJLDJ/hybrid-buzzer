@@ -138,13 +138,27 @@ button:focus {
   font-size: 2em;
   background-color: rgb(243, 175, 185);
   color: rgb(18, 30, 102);
+  border: 5px solid rgb(243, 175, 185);
+}
+.buzzer::before {
+  content: "Buzz!!!";
 }
 .buzzer:focus {
   box-shadow: 0 0 0 3px #ABB7FF;
 }
-.buzzer:hover,
-.buzzer:active {
+.buzzer:not(.buzzer-locked):hover,
+.buzzer:not(.buzzer-locked):active {
   background-color: #e97284;
+  border-color: #e97284;
+}
+
+.buzzer.buzzer-locked {
+  background-color: transparent;
+  color: rgb(243, 175, 185);
+  cursor: initial;
+}
+.buzzer.buzzer-locked::before {
+  content: "Wait for it...";
 }
 
 .secondary {

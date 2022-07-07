@@ -24,11 +24,16 @@ const getData = () => ({
 app.use(express.static('public'))
 app.set('view engine', 'pug')
 
-app.get('/', (req, res) => res.render('index', { title }))
+app.get('/', (req, res) => res.render('index', Object.assign({ title }, getData())))
 app.get('/host', (req, res) => res.render('host', Object.assign({ title }, getData())))
 
 io.on('connection', (socket) => {
   socket.on('join', (user) => {
+    if (getData().users.includes(user.id)) {
+      console.log(`${user.name} joined! (but was de-dupe filtered)`)
+      return;
+    }
+
     data.users.push(user.id)
     io.emit('active', data.users.length)
     console.log(`${user.name} joined!`)
